@@ -1,6 +1,4 @@
-# SecurePay - Actividad 2P
-
-Refactorizacion y endurecimiento del backend `SecurePay` para la actividad practica de Aplicaciones Distribuidas.
+# SecurePay - Exámen 2P
 
 ## Objetivo
 
@@ -26,6 +24,15 @@ Este repositorio documenta la resolucion por fases de la actividad:
 ## Evidencias Postman
 
 Las capturas de esta seccion corresponden a las validaciones funcionales pedidas en la actividad.
+
+Para agilizar la validacion, los tokens usados en las pruebas se generaron por consola con comandos de Node.js. De esta manera no fue necesario esperar 2 minutos a que un token valido caducara para obtener la evidencia del `401` por expiracion.
+
+Comandos usados:
+
+```bash
+node -e "console.log(require('./src/services/jwt.service').signToken({ id: 'usr_001', name: 'Estudiante Alpha' }))"
+node -e "const fs=require('fs'); const jwt=require('jsonwebtoken'); const key=fs.readFileSync('./private.pem','utf8'); console.log(jwt.sign({sub:'usr_001',name:'Estudiante Alpha'}, key, { algorithm:'RS256', expiresIn:-10 }))"
+```
 
 ### 1. Token valido y acceso autorizado
 
