@@ -1,4 +1,5 @@
 const jwtService = require('../services/jwt.service');
+const Sentry = require('../instrument');
 
 /**
  * Protege cada microservicio de forma stateless: extrae el Bearer token,
@@ -26,6 +27,11 @@ function authMiddleware(req, res, next) {
 
   try {
     req.user = jwtService.verifyToken(token);
+    Sentry.setUser({
+      id: req.user.sub,
+      username: req.user.name
+    });
+    Sentry.setTag('user_id', req.user.sub);
     return next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {

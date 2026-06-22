@@ -8,7 +8,11 @@ class TransferController {
     this.executeTransfer = this.executeTransfer.bind(this);
   }
 
-  executeTransfer(req, res) {
+  executeTransfer(req, res, next) {
+    if (req.body.simulateDbFailure === true) {
+      return next(new Error('Conexión interrumpida con el Clúster de Datos SecurePay'));
+    }
+
     try {
       const { fromAccountId, toAccountId, amount } = req.body;
 
